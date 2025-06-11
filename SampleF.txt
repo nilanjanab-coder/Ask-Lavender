@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Lavender Wellness Design System */
+
+@layer base {
+  :root {
+    --background: 252 249 255;
+    --foreground: 45 39 70;
+
+    --card: 255 255 255;
+    --card-foreground: 45 39 70;
+
+    --popover: 255 255 255;
+    --popover-foreground: 45 39 70;
+
+    --primary: 147 124 195;
+    --primary-foreground: 255 255 255;
+
+    --secondary: 230 220 245;
+    --secondary-foreground: 45 39 70;
+
+    --muted: 245 242 250;
+    --muted-foreground: 107 97 130;
+
+    --accent: 210 190 255;
+    --accent-foreground: 45 39 70;
+
+    --destructive: 220 38 127;
+    --destructive-foreground: 255 255 255;
+
+    --border: 230 220 245;
+    --input: 230 220 245;
+    --ring: 147 124 195;
+
+    --radius: 0.75rem;
+
+    /* Custom Lavender Wellness Colors */
+    --lavender-50: 252 249 255;
+    --lavender-100: 245 242 250;
+    --lavender-200: 230 220 245;
+    --lavender-300: 210 190 255;
+    --lavender-400: 183 155 230;
+    --lavender-500: 147 124 195;
+    --lavender-600: 124 101 170;
+    --lavender-700: 101 78 145;
+    --lavender-800: 78 55 120;
+    --lavender-900: 45 39 70;
+
+    --sage-100: 245 250 245;
+    --sage-200: 220 235 220;
+    --sage-300: 195 220 195;
+    --sage-400: 145 190 145;
+    --sage-500: 120 165 120;
+
+    --wellness-gradient: linear-gradient(135deg, hsl(var(--lavender-200)), hsl(var(--lavender-100)), hsl(var(--sage-100)));
+  }
+
+  .dark {
+    --background: 45 39 70;
+    --foreground: 252 249 255;
+    --card: 55 49 80;
+    --card-foreground: 252 249 255;
+    --popover: 55 49 80;
+    --popover-foreground: 252 249 255;
+    --primary: 183 155 230;
+    --primary-foreground: 45 39 70;
+    --secondary: 78 55 120;
+    --secondary-foreground: 252 249 255;
+    --muted: 65 59 90;
+    --muted-foreground: 183 155 230;
+    --accent: 101 78 145;
+    --accent-foreground: 252 249 255;
+    --border: 78 55 120;
+    --input: 78 55 120;
+    --ring: 183 155 230;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    background: hsl(var(--lavender-50));
+  }
+
+  .wellness-gradient {
+    background: var(--wellness-gradient);
+  }
+
+  .chat-bubble-user {
+    @apply bg-primary text-primary-foreground rounded-2xl rounded-br-md px-4 py-3 max-w-xs ml-auto;
+  }
+
+  .chat-bubble-bot {
+    @apply bg-card text-card-foreground rounded-2xl rounded-bl-md px-4 py-3 max-w-sm shadow-sm border;
+  }
+
+  .wellness-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300;
+  }
+
+  .floating-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .pulse-gentle {
+    animation: pulse-gentle 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gentle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+}
