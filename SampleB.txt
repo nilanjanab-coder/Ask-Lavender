@@ -1,0 +1,32 @@
+import React from 'react';
+import { Button } from '@/components/ui/button';
+
+interface QuickActionsProps {
+  onActionSelect: (action: string) => void;
+}
+
+export const QuickActions = ({ onActionSelect }: QuickActionsProps) => {
+  const quickActions = [
+    "I feel anxious",
+    "Breathing exercise", 
+    "I can't sleep",
+    "Need motivation",
+    "Feeling stressed"
+  ];
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {quickActions.map((action, index) => (
+        <Button
+          key={index}
+          variant="outline"
+          size="sm"
+          onClick={() => onActionSelect(action)}
+          className="text-xs bg-background/50 border-border/50 hover:bg-primary hover:text-white hover:border-primary transition-all duration-200"
+        >
+          {action}
+        </Button>
+      ))}
+    </div>
+  );
+};
