@@ -1,0 +1,135 @@
+import React from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { 
+  Moon, 
+  Leaf, 
+  Heart, 
+  Droplet, 
+  Activity, 
+  Sun,
+  Bell,
+  Book
+} from 'lucide-react';
+
+interface WellnessModulesProps {
+  onModuleSelect: (action: string) => void;
+}
+
+export const WellnessModules = ({ onModuleSelect }: WellnessModulesProps) => {
+  const modules = [
+    {
+      id: 'sleep',
+      title: 'Sleep & Rest',
+      icon: Moon,
+      color: 'from-blue-400 to-purple-500',
+      description: 'Wind down routines',
+      action: "I'm having trouble sleeping, can you help me?"
+    },
+    {
+      id: 'nutrition',
+      title: 'Nutrition',
+      icon: Leaf,
+      color: 'from-green-400 to-emerald-500',
+      description: 'Healthy eating tips',
+      action: "What should I eat for better energy?"
+    },
+    {
+      id: 'mindfulness',
+      title: 'Mindfulness',
+      icon: Heart,
+      color: 'from-pink-400 to-rose-500',
+      description: 'Meditation & peace',
+      action: "I want to practice mindfulness and meditation"
+    },
+    {
+      id: 'hydration',
+      title: 'Hydration',
+      icon: Droplet,
+      color: 'from-cyan-400 to-blue-500',
+      description: 'Stay refreshed',
+      action: "Remind me about staying hydrated"
+    },
+    {
+      id: 'movement',
+      title: 'Movement',
+      icon: Activity,
+      color: 'from-orange-400 to-red-500',
+      description: 'Gentle exercise',
+      action: "I need some gentle movement and stretching ideas"
+    },
+    {
+      id: 'mood',
+      title: 'Mood Support',
+      icon: Sun,
+      color: 'from-yellow-400 to-orange-500',
+      description: 'Emotional wellness',
+      action: "I'm feeling down and need some emotional support"
+    },
+    {
+      id: 'routine',
+      title: 'Daily Habits',
+      icon: Bell,
+      color: 'from-indigo-400 to-purple-500',
+      description: 'Healthy routines',
+      action: "Help me build better daily wellness habits"
+    },
+    {
+      id: 'reflection',
+      title: 'Self-Care',
+      icon: Book,
+      color: 'from-purple-400 to-pink-500',
+      description: 'Personal growth',
+      action: "I want to focus on self-care and reflection"
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-bold text-foreground mb-2">Wellness Areas</h2>
+        <p className="text-muted-foreground">Choose an area to explore together</p>
+      </div>
+      
+      <div className="grid gap-4">
+        {modules.map((module) => {
+          const IconComponent = module.icon;
+          return (
+            <Card 
+              key={module.id} 
+              className="wellness-card hover:scale-105 transition-transform duration-300 cursor-pointer group"
+              onClick={() => onModuleSelect(module.action)}
+            >
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${module.color} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}>
+                  <IconComponent className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                    {module.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{module.description}</p>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+      
+      <Card className="wellness-card border-dashed border-2 border-primary/30 bg-primary/5">
+        <div className="text-center py-4">
+          <h3 className="font-semibold text-primary mb-2">Daily Check-in</h3>
+          <p className="text-sm text-muted-foreground mb-4">How are you feeling today?</p>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => onModuleSelect("I'd like to do a daily wellness check-in")}
+            className="border-primary text-primary hover:bg-primary hover:text-white"
+          >
+            Start Check-in
+          </Button>
+        </div>
+      </Card>
+    </div>
+  );
+};
