@@ -1,0 +1,223 @@
+// Update this page (the content is just a fallback if you fail to update the page)
+
+const Index = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
+        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+import React, { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { WellnessModules } from '@/components/WellnessModules';
+import { WellnessHeader } from '@/components/WellnessHeader';
+import { ChatMessage } from '@/components/ChatMessage';
+import { QuickActions } from '@/components/QuickActions';
+import { Send, Sparkles } from 'lucide-react';
+
+interface Message {
+  id: string;
+  text: string;
+  isUser: boolean;
+  timestamp: Date;
+  category?: string;
+}
+
+const Index = () => {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      text: "Hi there! I'm Ask Lavender 🌿. I'm here to help you feel better—one breath, one sip, one step at a time. What area of your well-being would you like to explore today?",
+      isUser: false,
+      timestamp: new Date(),
+    }
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const generateResponse = (userMessage: string): string => {
+    const message = userMessage.toLowerCase();
+    
+    // Anxiety and stress responses
+    if (message.includes('anxious') || message.includes('anxiety') || message.includes('stressed') || message.includes('worry')) {
+      return "I understand you're feeling anxious 💜. Let's try a grounding technique: Name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste. This can help bring you back to the present moment. Would you like a breathing exercise too?";
+    }
+    
+    // Sleep related
+    if (message.includes('sleep') || message.includes('tired') || message.includes('rest') || message.includes('insomnia')) {
+      return "Your body needs restorative sleep 🌙. Try this wind-down routine: dim the lights, put away screens 30 minutes before bed, and try some gentle breathing. Breathe in for 4 counts, hold for 7, exhale for 8. Sweet dreams await you.";
+    }
+    
+    // Nutrition and hydration
+    if (message.includes('eat') || message.includes('food') || message.includes('hungry') || message.includes('nutrition')) {
+      return "Nourishing your body is an act of self-love 🍃. Try colorful foods that make you feel energized—think leafy greens, berries, nuts, and whole grains. What sounds good to your body right now? Listen to what it's asking for.";
+    }
+    
+    if (message.includes('water') || message.includes('hydration') || message.includes('drink')) {
+      return "Water is life's gentle medicine 💧. Your body is asking for hydration—even a small sip can make a difference. Try adding a slice of lemon or cucumber for a refreshing touch. How does it feel to give your body this gift?";
+    }
+    
+    // Meditation and breathing
+    if (message.includes('meditat') || message.includes('breath') || message.includes('calm') || message.includes('mindful')) {
+      return "Let's find some peace together 🧘‍♀️. Try this: Place one hand on your chest, one on your belly. Breathe slowly and feel which hand moves more. Let your belly hand do the moving—this is your body's natural rhythm. Stay here for a few breaths.";
+    }
+    
+    // Exercise and movement
+    if (message.includes('exercise') || message.includes('move') || message.includes('stretch') || message.includes('workout')) {
+      return "Movement is medicine for both body and mind 🌸. Even gentle stretching counts! Try reaching your arms up to the sky, then slowly roll your shoulders back. Your body will thank you for any movement you give it. What feels good today?";
+    }
+    
+    // Emotional support
+    if (message.includes('sad') || message.includes('depressed') || message.includes('down') || message.includes('upset')) {
+      return "It's okay to not be okay 💜. Your feelings are valid, and you're not alone. Sometimes sadness needs to be felt before it can heal. Would you like to try journaling about what you're feeling, or shall we do a gentle self-compassion exercise together?";
+    }
+    
+    // Daily habits and routine
+    if (message.includes('routine') || message.includes('habit') || message.includes('daily') || message.includes('schedule')) {
+      return "Creating gentle routines can be like planting seeds of wellness 🌱. Start small—maybe one mindful breath when you wake up, or one glass of water. What small, nurturing habit feels possible for you today?";
+    }
+    
+    // General wellness check-in
+    if (message.includes('how are you') || message.includes('feeling') || message.includes('mood')) {
+      return "Thank you for asking 🌿. I'm here and ready to support your wellness journey. More importantly, how are YOU feeling right now? Take a moment to check in with your body, your breath, your heart. What do you notice?";
+    }
+    
+    // Default responses with wellness focus
+    const defaultResponses = [
+      "That's beautiful that you're taking time for your wellness 🌸. Tell me more about what's on your mind today?",
+      "I'm here to listen and support you 💜. What area of your well-being would you like to explore?",
+      "Your wellness journey is unique and important 🌿. How can I help you feel more balanced today?",
+      "Thank you for sharing with me 🌙. What would feel most nurturing for you right now?",
+    ];
+    
+    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+  };
+
+  const handleSendMessage = async () => {
+    if (!inputValue.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: inputValue,
+      isUser: true,
+      timestamp: new Date(),
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsTyping(true);
+
+    // Simulate AI thinking time
+    setTimeout(() => {
+      const botResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: generateResponse(inputValue),
+        isUser: false,
+        timestamp: new Date(),
+      };
+      
+      setMessages(prev => [...prev, botResponse]);
+      setIsTyping(false);
+    }, 1500);
+  };
+
+  const handleQuickAction = (action: string) => {
+    setInputValue(action);
+    setTimeout(() => handleSendMessage(), 100);
+  };
+
+  return (
+    <div className="min-h-screen wellness-gradient">
+      <WellnessHeader />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {/* Wellness Modules Sidebar */}
+          <div className="lg:col-span-1">
+            <WellnessModules onModuleSelect={handleQuickAction} />
+          </div>
+          
+          {/* Chat Interface */}
+          <div className="lg:col-span-2">
+            <Card className="h-[600px] flex flex-col shadow-lg border-0 bg-white/70 backdrop-blur-sm">
+              {/* Chat Header */}
+              <div className="p-6 border-b border-border/50">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center floating-animation">
+                    <Sparkles className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-foreground">Ask Lavender</h2>
+                    <p className="text-sm text-muted-foreground">Your wellness companion</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Messages */}
+              <ScrollArea className="flex-1 p-6">
+                <div className="space-y-4">
+                  {messages.map((message) => (
+                    <ChatMessage key={message.id} message={message} />
+                  ))}
+                  
+                  {isTyping && (
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="chat-bubble-bot">
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div ref={messagesEndRef} />
+              </ScrollArea>
+              
+              {/* Quick Actions */}
+              <div className="px-6 py-3 border-t border-border/50">
+                <QuickActions onActionSelect={handleQuickAction} />
+              </div>
+              
+              {/* Input */}
+              <div className="p-6 border-t border-border/50">
+                <div className="flex gap-3">
+                  <Input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    placeholder="Share what's on your mind..."
+                    className="bg-background/50 border-border/50 focus:border-primary"
+                  />
+                  <Button 
+                    onClick={handleSendMessage}
+                    className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Index;
